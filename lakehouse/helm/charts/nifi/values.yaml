@@ -1,0 +1,4 @@
+image: apache/nifi:1.26.0
+service:
+  port: 9090
+resources: {}

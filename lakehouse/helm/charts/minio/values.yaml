@@ -1,0 +1,3 @@
+replicas: 1
+resources: {}
+pvcSize: 50Gi

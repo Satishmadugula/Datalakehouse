@@ -1,0 +1,5 @@
+{
+  "uri": "mongodb://mongo:mongo@mongo:27017/",
+  "database": "payments",
+  "replicaSet": "rs0"
+}

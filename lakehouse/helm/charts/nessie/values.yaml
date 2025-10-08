@@ -1,0 +1,6 @@
+image: projectnessie/nessie:0.80.1
+postgres:
+  host: postgres
+  database: nessie
+  user: nessie
+  password: nessie

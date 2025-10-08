@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<template>
+  <name>cdc-mongo-to-kafka</name>
+  <description>Capture MongoDB change streams and publish to Kafka topics.</description>
+  <groupId>mongo-cdc-group</groupId>
+  <dateCreated>2024-03-01T00:00:00.000Z</dateCreated>
+  <snippet>
+    <processors>
+      <processor>
+        <id>consume-cdc</id>
+        <name>ConsumeMongoDBChangeStream</name>
+        <class>org.apache.nifi.processors.mongodb.ConsumeMongoDBChangeStream</class>
+        <properties>
+          <entry>
+            <key>Mongo URI</key>
+            <value>${MONGO_URI}</value>
+          </entry>
+          <entry>
+            <key>Mongo Database Name</key>
+            <value>${MONGO_DATABASE}</value>
+          </entry>
+          <entry>
+            <key>Full Document</key>
+            <value>updateLookup</value>
+          </entry>
+        </properties>
+      </processor>
+      <processor>
+        <id>route-collection</id>
+        <name>JoltTransformJSON</name>
+        <class>org.apache.nifi.processors.standard.JoltTransformJSON</class>
+        <properties>
+          <entry>
+            <key>Jolt Specification</key>
+            <value>[{"operation":"default","spec":{"topic":"${MONGO_DATABASE}.cdc.${value.ns.coll}"}}]</value>
+          </entry>
+        </properties>
+      </processor>
+      <processor>
+        <id>publish-kafka</id>
+        <name>PublishKafkaRecord_2_6</name>
+        <class>org.apache.nifi.processors.kafka.pubsub.PublishKafkaRecord_2_6</class>
+        <properties>
+          <entry>
+            <key>Kafka Brokers</key>
+            <value>${KAFKA_BROKERS}</value>
+          </entry>
+          <entry>
+            <key>Topic Name</key>
+            <value>${topic}</value>
+          </entry>
+          <entry>
+            <key>Use Transactions</key>
+            <value>true</value>
+          </entry>
+        </properties>
+      </processor>
+    </processors>
+    <connections>
+      <connection>
+        <id>cdc-route</id>
+        <sourceId>consume-cdc</sourceId>
+        <sourceRelationshipList>
+          <relationship>success</relationship>
+        </sourceRelationshipList>
+        <destinationId>route-collection</destinationId>
+      </connection>
+      <connection>
+        <id>cdc-publish</id>
+        <sourceId>route-collection</sourceId>
+        <sourceRelationshipList>
+          <relationship>success</relationship>
+        </sourceRelationshipList>
+        <destinationId>publish-kafka</destinationId>
+      </connection>
+    </connections>
+  </snippet>
+</template>

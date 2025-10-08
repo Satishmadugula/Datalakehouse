@@ -1,0 +1,25 @@
+{
+  "sources": [
+    {
+      "name": "minio_raw",
+      "type": "S3",
+      "config": {
+        "accessKey": "${MINIO_ROOT_USER}",
+        "accessSecret": "${MINIO_ROOT_PASSWORD}",
+        "propertyList": [
+          {"name": "fs.s3a.endpoint", "value": "http://minio:9000"},
+          {"name": "fs.s3a.path.style.access", "value": "true"}
+        ]
+      }
+    },
+    {
+      "name": "iceberg_nessie",
+      "type": "NESSIE",
+      "config": {
+        "nessieEndpoint": "http://nessie:19120/api/v2",
+        "defaultRef": "main",
+        "warehousePath": "s3a://gold"
+      }
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "minio.fullname" . }}
+spec:
+  serviceName: {{ include "minio.fullname" . }}
+  replicas: {{ .Values.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "minio.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "minio.fullname" . }}
+    spec:
+      containers:
+        - name: minio
+          image: {{ .Values.global.minio.image | default .Values.image | default "minio/minio:RELEASE.2024-05-10T02-52-55Z" }}
+          args: ["server", "/data", "--console-address", ":9001"]
+          env:
+            - name: MINIO_ROOT_USER
+              value: {{ .Values.global.minio.accessKey | quote }}
+            - name: MINIO_ROOT_PASSWORD
+              value: {{ .Values.global.minio.secretKey | quote }}
+            - name: MINIO_REGION
+              value: {{ .Values.global.minio.region | quote }}
+          ports:
+            - containerPort: 9000
+            - containerPort: 9001
+          volumeMounts:
+            - name: data
+              mountPath: /data
+          resources: {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "minio.fullname" . }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "minio.fullname" . }}
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: {{ .Values.pvcSize }}

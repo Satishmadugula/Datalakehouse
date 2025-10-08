@@ -1,0 +1,2 @@
+image: mongo:7.0
+replicas: 1

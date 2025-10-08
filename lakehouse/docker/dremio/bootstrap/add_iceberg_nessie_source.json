@@ -1,0 +1,16 @@
+{
+  "entityType": "source",
+  "config": {
+    "name": "iceberg_nessie",
+    "type": "NESSIE",
+    "nessieClientConfig": {
+      "nessieEndpoint": "http://nessie:19120/api/v2",
+      "defaultRef": "main",
+      "warehousePath": "s3a://gold"
+    },
+    "propertyList": [
+      {"name": "fs.s3a.endpoint", "value": "http://minio:9000"},
+      {"name": "fs.s3a.path.style.access", "value": "true"}
+    ]
+  }
+}

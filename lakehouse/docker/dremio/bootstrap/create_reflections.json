@@ -1,0 +1,15 @@
+{
+  "reflections": [
+    {
+      "dataset": "@iceberg_nessie.payments.orders",
+      "type": "AGGREGATION",
+      "dimensions": ["merchant_id"],
+      "measures": ["sum(amount)", "count(*)"]
+    },
+    {
+      "dataset": "@iceberg_nessie.payments.merchant_events",
+      "type": "RAW",
+      "displayColumns": ["order_id", "merchant_id", "status", "event_ts"]
+    }
+  ]
+}

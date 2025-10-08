@@ -1,0 +1,4 @@
+apiVersion: v2
+name: dremio
+version: 0.1.0
+description: Dremio CE deployment

@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "airflow.scheduler.fullname" . }}
+spec:
+  replicas: {{ .Values.scheduler.replicas }}
+  selector:
+    matchLabels:
+      app: {{ include "airflow.scheduler.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "airflow.scheduler.fullname" . }}
+    spec:
+      serviceAccountName: {{ include "airflow.serviceAccount" . }}
+      containers:
+        - name: scheduler
+          image: {{ .Values.image }}
+          command: ["airflow", "scheduler"]
+          env:
+            - name: AIRFLOW__CORE__EXECUTOR
+              value: KubernetesExecutor

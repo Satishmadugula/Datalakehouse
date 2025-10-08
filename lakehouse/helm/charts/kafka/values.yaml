@@ -1,0 +1,4 @@
+enabled: true
+image: bitnami/kafka:3.6.1
+zookeeper:
+  image: bitnami/zookeeper:3.8.3
