@@ -1,0 +1,11 @@
+apache-airflow-providers-apache-spark==4.2.0
+apache-airflow-providers-apache-kafka==2.7.0
+apache-airflow-providers-apache-iceberg==0.1.5
+apache-airflow-providers-http==4.5.0
+apache-airflow-providers-ssh==3.7.1
+apache-airflow-providers-cncf-kubernetes==7.4.0
+boto3==1.34.82
+requests==2.31.0
+pandas==2.2.2
+pyiceberg==0.6.1
+python-nessie==0.80.0

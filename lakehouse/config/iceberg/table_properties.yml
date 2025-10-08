@@ -1,0 +1,14 @@
+orders:
+  write.target-file-size-bytes: 536870912
+  write.merge.mode: merge-on-read
+  commit.retry.num-retries: 5
+  write.metadata.delete-after-commit.enabled: true
+merchant_events:
+  write.target-file-size-bytes: 268435456
+  write.distribution-mode: hash
+  commit.retry.num-retries: 8
+  write.metadata.previous-versions-max: 50
+clickstream:
+  write.target-file-size-bytes: 134217728
+  write.metadata.metrics.default: full
+  governance.tags: ["pii:none", "domain:payments"]

@@ -1,0 +1,25 @@
+global:
+  namespace: lakehouse
+  enableKafka: true
+  minio:
+    accessKey: admin
+    secretKey: password
+    region: us-east-1
+minio:
+  image: minio/minio:RELEASE.2024-05-10T02-52-55Z
+postgres:
+  image: postgres:15.5
+nessie:
+  image: projectnessie/nessie:0.80.1
+nifi:
+  image: apache/nifi:1.26.0
+airflow:
+  image: apache/airflow:2.9.1-python3.10
+spark:
+  image: lakehouse/spark:3.5.1
+dremio:
+  image: dremio/dremio-oss:24.3.0
+mongo:
+  image: mongo:7.0
+kafka:
+  image: bitnami/kafka:3.6.1

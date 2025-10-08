@@ -1,0 +1,57 @@
+{{- if .Values.enabled }}
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ include "kafka.fullname" . }}
+spec:
+  serviceName: {{ include "kafka.fullname" . }}
+  selector:
+    matchLabels:
+      app: {{ include "kafka.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "kafka.fullname" . }}
+    spec:
+      containers:
+        - name: kafka
+          image: {{ .Values.image }}
+          env:
+            - name: KAFKA_CFG_ZOOKEEPER_CONNECT
+              value: {{ include "kafka.zookeeper" . }}:2181
+            - name: ALLOW_PLAINTEXT_LISTENER
+              value: "yes"
+          ports:
+            - containerPort: 9092
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "kafka.fullname" . }}
+spec:
+  selector:
+    app: {{ include "kafka.fullname" . }}
+  ports:
+    - port: 9092
+      targetPort: 9092
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "kafka.zookeeper" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "kafka.zookeeper" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "kafka.zookeeper" . }}
+    spec:
+      containers:
+        - name: zookeeper
+          image: {{ .Values.zookeeper.image }}
+          ports:
+            - containerPort: 2181
+{{- end }}

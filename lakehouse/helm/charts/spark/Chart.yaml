@@ -1,0 +1,4 @@
+apiVersion: v2
+name: spark
+version: 0.1.0
+description: Spark driver service for Iceberg workloads

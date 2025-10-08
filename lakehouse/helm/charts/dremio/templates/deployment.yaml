@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "dremio.fullname" . }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ include "dremio.fullname" . }}
+  template:
+    metadata:
+      labels:
+        app: {{ include "dremio.fullname" . }}
+    spec:
+      containers:
+        - name: dremio
+          image: {{ .Values.image }}
+          ports:
+            - containerPort: {{ .Values.service.port }}
+          volumeMounts:
+            - name: bootstrap
+              mountPath: /opt/dremio/bootstrap
+      volumes:
+        - name: bootstrap
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "dremio.fullname" . }}
+spec:
+  selector:
+    app: {{ include "dremio.fullname" . }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.port }}

@@ -1,0 +1,5 @@
+image: postgres:15.5
+storage: 20Gi
+username: nessie
+password: nessie
+database: nessie

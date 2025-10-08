@@ -1,0 +1,4 @@
+image: lakehouse/spark:3.5.1
+service:
+  port: 7077
+resources: {}

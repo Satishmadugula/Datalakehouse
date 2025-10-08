@@ -1,0 +1,4 @@
+apiVersion: v2
+name: mongo
+version: 0.1.0
+description: MongoDB replica for change streams

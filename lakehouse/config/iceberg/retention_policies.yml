@@ -1,0 +1,10 @@
+tables:
+  lakehouse.payments.orders:
+    snapshot_retention_days: 7
+    tags:
+      - name: month-start
+        snapshot: latest
+  lakehouse.payments.merchant_events:
+    snapshot_retention_days: 3
+  lakehouse.payments.clickstream:
+    snapshot_retention_days: 14

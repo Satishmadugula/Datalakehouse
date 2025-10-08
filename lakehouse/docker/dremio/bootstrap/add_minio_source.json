@@ -1,0 +1,15 @@
+{
+  "entityType": "source",
+  "config": {
+    "name": "minio_raw",
+    "type": "S3",
+    "accessKey": "${MINIO_ROOT_USER}",
+    "accessSecret": "${MINIO_ROOT_PASSWORD}",
+    "secure": false,
+    "externalBucketList": ["raw", "bronze", "silver", "gold"],
+    "propertyList": [
+      {"name": "fs.s3a.endpoint", "value": "http://minio:9000"},
+      {"name": "fs.s3a.path.style.access", "value": "true"}
+    ]
+  }
+}

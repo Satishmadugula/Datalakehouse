@@ -1,0 +1,29 @@
+{
+  "controllerServices": [
+    {
+      "name": "MinIOCredentialsService",
+      "type": "org.apache.nifi.processors.aws.credentials.provider.service.AWSCredentialsProviderControllerService",
+      "properties": {
+        "Access Key ID": "${MINIO_ROOT_USER}",
+        "Secret Access Key": "${MINIO_ROOT_PASSWORD}",
+        "Use Default Credentials": "false"
+      }
+    },
+    {
+      "name": "MongoDBControllerService",
+      "type": "org.apache.nifi.mongodb.MongoDBControllerService",
+      "properties": {
+        "mongo-uri": "${MONGO_URI}",
+        "mongo-database-name": "${MONGO_DATABASE}"
+      }
+    },
+    {
+      "name": "KafkaRecordWriter",
+      "type": "org.apache.nifi.kafka.pubsub.KafkaPublisher",
+      "properties": {
+        "bootstrap.servers": "${KAFKA_BROKERS}",
+        "acks": "all"
+      }
+    }
+  ]
+}
